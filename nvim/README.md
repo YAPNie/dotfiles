@@ -13,8 +13,16 @@ sudo apt install ripgrep
 
 ## Notes
 
-- `~/.local/share/nvim/` - NeoVim data dir (stdpath "data")
+- `~/.local/share/nvim/` - NeoVim data dir (stdpath "data"). Its content can be
+  transfered to the similar another workstation but username should be the same.
 
+```bash
+cd ~
+tar -cf - .local/share/nvim \
+| gzip -9 > neovim_12.2_lazy_mason_share_YYYYMMDD.tar.gz
+tar -cf - .local/state/nvim \
+| gzip -9 > neovim_12.2_lazy_mason_state_YYYYMMDD.tar.gz
+```
 
 ## Install as AppImage
 
@@ -95,7 +103,6 @@ Note. lazy.nvim, Mason add plugins after adding appropriate configuration, but d
 ```
 
 ## Extensions
-
 
 #### Plugins
 
