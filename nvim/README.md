@@ -17,11 +17,14 @@ sudo apt install ripgrep
   transfered to the similar another workstation but username should be the same.
 
 ```bash
+# Archive
 cd ~
-tar -cf - .local/share/nvim \
-| gzip -9 > neovim_12.2_lazy_mason_share_YYYYMMDD.tar.gz
-tar -cf - .local/state/nvim \
-| gzip -9 > neovim_12.2_lazy_mason_state_YYYYMMDD.tar.gz
+tar -czpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz .local/share/nvim
+tar -czpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz .local/state/nvim
+# UnArchive
+cd ~
+tar -xzvpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz
+tar -xzvpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz
 ```
 
 ## Install as AppImage
@@ -51,6 +54,7 @@ sudo mkdir -p /usr/local/appimage
 sudo mv nvim-linux-x86_64.appimage /usr/local/appimage/nvim-0.12.2.appimage
 sudo chmod 755 /usr/local/appimage/nvim-0.12.2.appimage
 # Create symlink for a specific user
+mkdir ~/.local/bin/
 ln -sfn /usr/local/appimage/nvim-0.12.2.appimage ~/.local/bin/nvim
 ```
 
