@@ -12,5 +12,10 @@ require("core.autocmds")
 -- bootstrap + lazy setup (should be last)
 require("config.lazy")
 
---
-vim.cmd.colorscheme("dayfox")
+-- Set Colorscheme
+-- Schedule applying colorscheme because there is no guarantee that
+-- the colorscheme will be loaded before applying,
+-- but this method will lead to blinking on startup
+vim.schedule(function()
+	vim.cmd.colorscheme("dayfox")
+end)
