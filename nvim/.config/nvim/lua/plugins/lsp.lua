@@ -7,80 +7,68 @@ return {
 	},
 	event = { "BufReadPre", "BufNewFile" },
 	config = function()
-		local lspconfig = require("lspconfig")
+		-- Хоткеи для LSP (через LspAttach — событие подключения LSP к буферу)
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("my-lsp-attach", { clear = true }),
+			callback = function(event)
+				local map = function(keys, func, desc)
+					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = desc })
+				end
 
-		-- Функция-помощник: добавляет возможности автокомплита к LSP-серверу
-		local on_attach = function(client, bufnr)
-			-- Включаем автокомплит при подключении LSP
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			client.server_capabilities = vim.tbl_deep_extend("force", client.server_capabilities, capabilities)
+				map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+				map("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
+				map("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+				map("K", vim.lsp.buf.hover, "Hover Documentation")
+				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+				map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-			-- Hotkeys for  LSP (работают, когда LSP подключён к буферу)
-			local map = function(keys, func, desc)
-				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-			end
+				-- Форматирование при сохранении (только для ruff)
+				local client = vim.lsp.get_client_by_id(event.data.client_id)
+				if client and client.name == "ruff" then
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = event.buf,
+						callback = function()
+							vim.lsp.buf.format({ async = false })
+						end,
+					})
+				end
+			end,
+		})
 
-			map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-			map("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
-			map("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-			map("K", vim.lsp.buf.hover, "Hover Documentation")
-			map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-			map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+		-- ---- Настройка серверов через новый API vim.lsp.config ----
 
-			-- Форматирование при сохранении (только для ruff)
-			if client.name == "ruff" then
-				vim.api.nvim_create_autocmd("BufWritePre", {
-					buffer = bufnr,
-					callback = function()
-						vim.lsp.buf.format({ async = false })
-					end,
-				})
-			end
-		end
-
-		-- Настройка LSP-серверов
-		local servers = {
-			-- Для Python (типы, автокомплит, навигация)
-			pyright = {
-				settings = {
-					pyright = {
-						-- Отключаем сортировку импортов в pyright,
-						-- это будет делать ruff
-						disableOrganizeImports = true,
-					},
-					python = {
-						analysis = {
-							-- Отключаем проверку импортов в pyright,
-							-- это тоже будет делать ruff
-							ignore = { "*" },
-						},
-					},
+		-- Для Python (типы, автокомплит, навигация)
+		vim.lsp.config.pyright = {
+			settings = {
+				pyright = {
+					disableOrganizeImports = true, -- сортировку импортов делает ruff
 				},
-			},
-			-- Для Python (линтинг + форматирование)
-			ruff = {},
-			-- Для Lua
-			lua_ls = {
-				settings = {
-					Lua = {
-						runtime = { version = "LuaJIT" },
-						diagnostics = { globals = { "vim" } },
-						workspace = {
-							library = vim.api.nvim_get_runtime_file("", true),
-							checkThirdParty = false,
-						},
+				python = {
+					analysis = {
+						ignore = { "*" }, -- проверку импортов тоже делает ruff
 					},
 				},
 			},
 		}
 
-		-- Автоматически настраиваем каждый сервер
-		for server_name, server_opts in pairs(servers) do
-			lspconfig[server_name].setup({
-				on_attach = on_attach,
-				capabilities = require("cmp_nvim_lsp").default_capabilities(),
-				settings = server_opts.settings,
-			})
-		end
+		-- Для Python (линтинг + форматирование)
+		vim.lsp.config.ruff = {}
+
+		-- Для Lua
+		vim.lsp.config.lua_ls = {
+			settings = {
+				Lua = {
+					runtime = { version = "LuaJIT" },
+					diagnostics = { globals = { "vim" } },
+					workspace = {
+						library = vim.api.nvim_get_runtime_file("", true),
+						checkThirdParty = false,
+					},
+				},
+			},
+		}
+
+		-- Включить все серверы
+		vim.lsp.enable({ "pyright", "ruff", "lua_ls" })
 	end,
 }
