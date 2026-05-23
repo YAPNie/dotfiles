@@ -1,0 +1,33 @@
+# File: .stow-local-ignore
+# Contains files to be ignored by GNU stow.
+#
+# Comments and blank lines are allowed.
+
+# --- Stow ---
+^\.stowrc$
+^\.stow-local-ignore$
+
+# --- Git ---
+^\.git$
+^\.gitignore$
+^\.gitmodules$
+
+# --- Documentations ---
+# Any README (with any extension and letter case)
+(?i)README.*
+# Any Licenses and Notes
+(?i)LICENSE.*
+(?i)NOTES.*
+.*\.md
+.*\.txt
+
+# --- System ---
+# macOS
+\.DS_Store
+# Vim/Emacs temporary files
+.*~$
+\.swp$
+
+# --- Any Scripts ---
+.*\.sh$
+^\.scripts$
