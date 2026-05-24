@@ -1,38 +1,37 @@
 # NeoVim
 
-For Ubuntu.
+It was created on Ubuntu 24 LTS.
 
 ## Pre-requisite
 
+The pre-requisites are depend on NeoVim and the used extensions.
+
 ```bash
+# For lazy.nvim
 sudo apt install git unzip gzip tar curl wget
-sudo apt install python3-pip nodejs npm
-# ripgrep for telescope for searching in files content (<leader>sg).
+# For Mason
+sudo apt install python3-pip
+# For Mason (pyright, pylsp)
+sudo apt install nodejs npm
+# For telescope (<leader>sg) - searching in files content.
 sudo apt install ripgrep
 ```
 
-## Notes
+## Installation
 
-- `~/.local/share/nvim/` - NeoVim data dir (stdpath "data"). Its content can be
-  transfered to the similar another workstation but username should be the same.
+### Install as a system package
 
-```bash
-# Archive
-cd ~
-tar -czpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz .local/share/nvim
-tar -czpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz .local/state/nvim
-# UnArchive
-cd ~
-tar -xzvpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz
-tar -xzvpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz
-```
-
-## Install as AppImage
+If a system repo contains the package
 
 Plugins may requires more recent NeoVim versions that is it in repos. AppImage
 can be used.
 
-### Possible AppImage layouts
+### Install as an AppImage
+
+Plugins may requires more recent NeoVim versions that is it in repos. AppImage
+can be used instead of a system package.
+
+#### Possible AppImage layouts
 
 - For access for every user root should be used:
   - application file (chmod 755) in: `/usr/local/appimage/appname.AppImage`
@@ -43,39 +42,39 @@ can be used.
 Symlink can be created (dir may be not exist and not in PATH):
 `~/.local/bin/appname`
 
-### Install/ugrade AppImage
+#### Install/upgrade AppImage
 
 [Check the latest release version](https://github.com/neovim/neovim/releases)
 
 ```bash
-cd /tmp
-wget https://github.com/neovim/neovim/releases/download/v0.12.2/nvim-linux-x86_64.appimage
-sudo mkdir -p /usr/local/appimage
-sudo mv nvim-linux-x86_64.appimage /usr/local/appimage/nvim-0.12.2.appimage
-sudo chmod 755 /usr/local/appimage/nvim-0.12.2.appimage
-# Create symlink for a specific user
-mkdir ~/.local/bin/
-ln -sfn /usr/local/appimage/nvim-0.12.2.appimage ~/.local/bin/nvim
-```
-
-### Check FUSE existance
-
-```bash
-# Check the FUSE exists.
+# Pre-requisites
+# Check the FUSE exists (required for AppImage).
 fusermount3 --version
-# Check updates
-#sudo apt update
-# Create dir if not exists
+# Create dir for AppImages
+sudo mkdir -p /usr/local/appimage
 # Note: if dir has not existed it is absent in PATH but
 # it is in ~/.profile and the user should re-login to take effect
 mkdir -p ~/.local/bin
-# Create a user symlink.
-ln -s /usr/local/appimage/nvim-0.12.2.appimage ~/.local/bin/nvim
-# Check version
+# Install/upgrade
+cd /tmp
+export $TMP_NVIM_VER=0.12.2
+wget https://github.com/neovim/neovim/releases/download/v{$TMP_NVIM_VER}/nvim-linux-x86_64.appimage
+sudo mv nvim-linux-x86_64.appimage /usr/local/appimage/nvim-{$TMP_NVIM_VER}.appimage
+sudo chmod 755 /usr/local/appimage/nvim-{$TMP_NVIM_VER}.appimage
+# Create symlink for a specific user
+ln -sfn /usr/local/appimage/nvim-{$TMP_NVIM_VER}.appimage ~/.local/bin/nvim
+# Check NeoVIM version
 nvim --version
 ```
 
-## Managers
+## Configuration
+
+### Dir layout
+
+- `~/.local/share/nvim/` - NeoVim data dir (stdpath "data"). Its content can be
+  transfered to the similar another workstation but username should be the same.
+
+### Managers
 
 - [lazy.nvim](https://github.com/folke/lazy.nvim) — A modern plugin manager for
   Neovim. Manages Lua-scripts for NeoVIM.
@@ -93,9 +92,13 @@ Note. lazy.nvim, Mason add plugins after adding appropriate configuration, but d
 
 ### Commands
 
+#### Lazy.nvim
+
 ```nvim
 :Lazy clean
 ```
+
+#### Mason
 
 ```nvim
 :Mason - opens a graphical status window
@@ -106,35 +109,52 @@ Note. lazy.nvim, Mason add plugins after adding appropriate configuration, but d
 :MasonLog - opens the mason.nvim log file in a new tab window
 ```
 
-## Extensions
+## Plugins
 
-#### Plugins
+- folke/which-key.nvim — Displays pending keybindings as you type.
+- nvim-telescope/telescope.nvim — Fuzzy Finder (files, LSP, and more).
+  - nvim-lua/plenary.nvim — Provides a set of common Lua utilities
+    (asynchronous operations, file I/O, job API, testing, popup/utility helpers)
+    to avoid code duplication in every plugin. Telescope and many other plugins
+    depend on it.
+  - nvim-telescope/telescope-ui-select.nvim — Overrides `vim.ui.select` so that
+    system/plugin selection dialogs (e.g., LSP code actions, plugin pickers) are
+    displayed through the familiar Telescope picker with filtering and easy
+    navigation. This improves the UX when working with LSP and other features
+    that rely on `vim.ui.select`.
+  - nvim-tree/nvim-web-devicons — Provides file extension/name → glyph (Nerd
+    Font) and color mappings used by file explorers, statuslines, and other
+    plugins. Requires a patched Nerd Font to display correctly; without one,
+    icons will be missing or garbled.
+- echasnovski/mini.nvim — A collection of various small, independent
+  plugins/modules.
+- NMAC427/guess-indent.nvim — A lightweight plugin that automatically detects
+  the indentation style (tabs vs spaces, indent width) in a file and sets the
+  corresponding buffer options when the file is opened. It is fast, written in
+  Lua, and often included in starter configurations (e.g., kickstart.nvim) to
+  avoid manual indentation setup.
+- nvim-treesitter/nvim-treesitter — A modern parser framework for Neovim that
+  provides more accurate syntax highlighting, structural operations
+  (incremental selection, code folding), and manages language parsers
+  (downloading and compilation). In corporate environments, note that parsers
+  are downloaded and compiled on the fly (requires network access and build
+  tools).
 
-- folke/which-key.nvim - Useful plugin to show you pending keybinds.
-- nvim-telescope/telescope.nvim - Fuzzy Finder (files, lsp, etc)
-  - nvim-lua/plenary.nvim - предоставляет набор общих Lua‑функций
-    (асинхронность, файловые операции, job‑API, тестирование, popup/utility
-    helpers), чтобы не дублировать код в каждом плагине. Telescope и многие
-    другие плагины зависят от него.
-  - nvim-telescope/telescope-ui-select.nvim - переопределяет vim.ui.select так,
-    чтобы системные/плагинные выборы (например, LSP code actions, выборы из
-    плагинов) показывались через знакомый интерфейс Telescope (picker), с
-    фильтрацией и удобной навигацией. Это улучшает UX при работе с LSP и другими
-    вызовами, которые используют vim.ui.select
-  - nvim-tree/nvim-web-devicons - предоставляет сопоставления расширений/имён
-    файлов → глифы (Nerd Font) и цвета, которые используют file‑explorers,
-    статус‑строки и другие плагины. Требование: патч‑шрифт (Nerd Font) для
-    корректного отображения; без него иконки либо не покажутся, либо будут
-    некорректны.
-- echasnovski/mini.nvim - Collection of various small independent
-  plugins/modules
-- NMAC427/guess-indent.nvim — это лёгкий плагин для автоматического определения
-  стиля отступов в файле (tabs vs spaces, ширина отступа) и автоматической
-  установки соответствующих buffer‑опций при открытии файла. Он быстрый, написан
-  на Lua и часто включён в стартовые конфиги (например, kickstart.nvim) чтобы не
-  настраивать отступы вручную.
-- nvim-treesitter/nvim-treesitter - это современный парсер‑фреймворк для Neovim,
-  который даёт более точное подсвечивание, структурные операции (инкрементальный
-  выбор, свёртки), и управляет языковыми парсерами (скачивание/компиляция). В
-  корпоративной среде обратите внимание, что парсеры скачиваются и компилируются
-  (нужны сетевой доступ и инструменты сборки)
+## Maintenance
+
+### Move to another PC
+
+Pay attention that some managers/plugins can use absolute path in its configs.
+One of the options is to use the same username on source and destination PC.
+The p-option for tar can help keep and restore mode of the files.
+
+```bash
+# Archive
+cd ~
+tar -czpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz .local/share/nvim
+tar -czpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz .local/state/nvim
+# UnArchive
+cd ~
+tar -xzvpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz
+tar -xzvpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz
+```
