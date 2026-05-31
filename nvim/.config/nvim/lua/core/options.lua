@@ -85,7 +85,7 @@ vim.opt.wildmode = "longest:full,full"
 vim.opt.wildoptions = "pum" -- popup menu
 
 -- Disable other plugins language providers
-because most of plugins are written on Lua
+-- because most of plugins are written on Lua
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
