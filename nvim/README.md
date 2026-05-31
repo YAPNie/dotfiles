@@ -151,10 +151,12 @@ The p-option for tar can help keep and restore mode of the files.
 ```bash
 # Archive
 cd ~
-tar -czpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz .local/share/nvim
-tar -czpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz .local/state/nvim
+tar -czpf neovim-$(nvim --version | head -n 1 | awk '{print $2}')-share-state-cache-$(whoami)-$(date +%Y%m%d).tar.gz \
+    .local/share/nvim \
+    .local/state/nvim \
+    .cache/nvim
 # UnArchive
 cd ~
-tar -xzvpf neovim_12.2_lazy_mason_share_USERNAME_YYYYMMDD.tar.gz
-tar -xzvpf neovim_12.2_lazy_mason_state_USERNAME_YYYYMMDD.tar.gz
+rm -Rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
+tar -xzvpf neovim-v0.12.2-share-state-cache-oxidized-20260531.tar.gz -C ~
 ```

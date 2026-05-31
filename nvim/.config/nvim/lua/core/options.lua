@@ -84,7 +84,28 @@ vim.o.confirm = true
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wildoptions = "pum" -- popup menu
 
+-- Disable other plugins language providers
+because most of plugins are written on Lua
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
+-- Disable more ancient providers
+-- for Python2 and remote non-Lua plugins
+vim.g.loaded_python_provider = 0
+vim.g.loaded_remote_provider = 0
+
+-- Number of spaces a <Tab> in the file counts for
+vim.opt.tabstop = 4
+-- Number of spaces a <Tab> counts for while performing editing operations
+vim.opt.softtabstop = 4
+-- Number of spaces to use for each step of (auto)indent
+vim.opt.shiftwidth = 4
+-- Convert tabs to spaces
+vim.opt.expandtab = true
+
 -- use or not TrueColor
+--- Neovim 0.10+ has enabled by default
 vim.opt.termguicolors = true
 
 -- set background
