@@ -30,6 +30,13 @@ require("lazy").setup({
 			import = "plugins",
 		},
 	},
+    -- LuaRocks/HereRocks
+	rocks = {
+        -- Force enabling support LuaRocks
+		enabled = true,
+        -- Force using HereRocks (isolated sandbox for LuaRocks plugins)
+		hererocks = true,
+	},
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
 		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table

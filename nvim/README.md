@@ -9,12 +9,14 @@ The pre-requisites are depend on NeoVim and the used extensions.
 ```bash
 # For lazy.nvim
 sudo apt install git unzip gzip tar curl wget
+# For HereRocks (lazy.nvim)
+sudo apt install python3 python3-pip build-essential unzip curl
 # For Mason
 sudo apt install python3-pip
 # For Mason (pyright, pylsp)
 sudo apt install nodejs npm
 # For telescope (<leader>sg) - searching in files content.
-sudo apt install ripgrep
+sudo apt install ripgrep fd-find
 ```
 
 ## Installation
@@ -88,7 +90,21 @@ nvim --version
   mason, but rather uses its API and simplifies maintaining a consistent
   environment across different machines.
 
-Note. lazy.nvim, Mason add plugins after adding appropriate configuration, but do not delete plugins from the disk if configuration is removed.
+Note. lazy.nvim, Mason add plugins after adding appropriate configuration, but
+do not delete plugins from the disk if configuration is removed.
+
+### Telescope plugins specific configuration
+
+In Ubuntu/Debian distributions, due to a name conflict, the binary file of the
+utility is called `fdfind` while Telescope searches for the `fd` command by
+default. To make Telescope (and Neovim itself) see the utility immediately,
+create a system link (symlink) for it in your local binaries folder. This can be
+done without root rights:
+
+```bash
+mkdir -p ~/.local/bin
+ln -s $(which fdfind) ~/.local/bin/fd
+```
 
 ### Commands
 
