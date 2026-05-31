@@ -104,6 +104,9 @@ vim.opt.shiftwidth = 4
 -- Convert tabs to spaces
 vim.opt.expandtab = true
 
+-- Cursor
+vim.opt.guicursor = "n-v-c-sm-i-ci-ve:block,r-cr-o:hor20"
+
 -- use or not TrueColor
 --- Neovim 0.10+ has enabled by default
 vim.opt.termguicolors = true
