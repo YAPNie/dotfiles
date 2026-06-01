@@ -11,6 +11,7 @@ return {
 				"lua-language-server", -- Lua LSP
 				-- "solargraph",
 				-- "rubocop",
+                "tree-sitter-cli", -- Compile tree-sitter language support
 			},
 			auto_update = false,
 		})

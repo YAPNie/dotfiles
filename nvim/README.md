@@ -110,11 +110,16 @@ ln -s $(which fdfind) ~/.local/bin/fd
 
 #### Make load and compile everything
 
+Make to install:
+
+- `ensure_installed` list from `mason-tool-installer.lua`
+- `ensure_installed` list from `nvim-treesitter.lua`
+
 ```bash
 nvim --headless \
   "+Lazy! sync" \
-  "+MasonInstall pyright ruff lua-language-server" \
-  "+TSInstallSync python lua bash c diff html luadoc markdown markdown_inline query regex ruby vim vimdoc" \
+  "+MasonInstall pyright ruff lua-language-server tree-sitter-cli" \
+  "+TSInstall bash c diff html lua luadoc markdown markdown_inline python query regex ruby vim vimdoc" \
   "+qa"
 ```
 
