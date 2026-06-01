@@ -25,37 +25,39 @@ return {
 				-- Форматирование при сохранении (только для ruff)
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if client and client.name == "ruff" then
+					local augroup = "format-ruff-" .. event.buf
+					-- Используем уникальную группу для каждого буфера
+					local augroup = "format-ruff-" .. event.buf
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						buffer = event.buf,
+						group = vim.api.nvim_create_augroup(augroup, { clear = true }),
 						callback = function()
-							vim.lsp.buf.format({ async = false })
+							vim.lsp.buf.format({ name = "ruff", async = false })
 						end,
 					})
 				end
 			end,
 		})
 
-		-- ---- Настройка серверов через новый API vim.lsp.config ----
-
-		-- Для Python (типы, автокомплит, навигация)
-		vim.lsp.config.pyright = {
+		-- Настройка серверов через lspconfig (проверенный способ)
+		local lspconfig = require("lspconfig")
+		-- Python: pyright (типы, автокомплит)
+		lspconfig.pyright.setup({
 			settings = {
 				pyright = {
-					disableOrganizeImports = true, -- сортировку импортов делает ruff
+					disableOrganizeImports = true, -- это делает ruff
 				},
 				python = {
 					analysis = {
-						ignore = { "*" }, -- проверку импортов тоже делает ruff
+						ignore = { "*" }, -- проверку делает ruff
 					},
 				},
 			},
-		}
-
-		-- Для Python (линтинг + форматирование)
-		vim.lsp.config.ruff = {}
-
-		-- Для Lua
-		vim.lsp.config.lua_ls = {
+		})
+		-- Python: ruff (линтинг + форматирование)
+		lspconfig.ruff.setup({})
+		-- Lua
+		lspconfig.lua_ls.setup({
 			settings = {
 				Lua = {
 					runtime = { version = "LuaJIT" },
@@ -66,9 +68,6 @@ return {
 					},
 				},
 			},
-		}
-
-		-- Включить все серверы
-		vim.lsp.enable({ "pyright", "ruff", "lua_ls" })
+		})
 	end,
 }
