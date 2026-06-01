@@ -59,12 +59,12 @@ sudo mkdir -p /usr/local/appimage
 mkdir -p ~/.local/bin
 # Install/upgrade
 cd /tmp
-export $TMP_NVIM_VER=0.12.2
-wget https://github.com/neovim/neovim/releases/download/v{$TMP_NVIM_VER}/nvim-linux-x86_64.appimage
-sudo mv nvim-linux-x86_64.appimage /usr/local/appimage/nvim-{$TMP_NVIM_VER}.appimage
-sudo chmod 755 /usr/local/appimage/nvim-{$TMP_NVIM_VER}.appimage
+export TMP_NVIM_VER="0.11.7"
+wget https://github.com/neovim/neovim/releases/download/v${TMP_NVIM_VER}/nvim-linux-x86_64.appimage
+sudo mv nvim-linux-x86_64.appimage /usr/local/appimage/nvim-${TMP_NVIM_VER}.appimage
+sudo chmod 755 /usr/local/appimage/nvim-${TMP_NVIM_VER}.appimage
 # Create symlink for a specific user
-ln -sfn /usr/local/appimage/nvim-{$TMP_NVIM_VER}.appimage ~/.local/bin/nvim
+ln -sfn /usr/local/appimage/nvim-${TMP_NVIM_VER}.appimage ~/.local/bin/nvim
 # Check NeoVIM version
 nvim --version
 ```
