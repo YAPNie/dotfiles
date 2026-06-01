@@ -108,6 +108,16 @@ ln -s $(which fdfind) ~/.local/bin/fd
 
 ### Commands
 
+#### Make load and compile everything
+
+```bash
+nvim --headless \
+  "+Lazy! sync" \
+  "+MasonInstall pyright ruff lua-language-server" \
+  "+TSInstallSync python lua bash c diff html luadoc markdown markdown_inline query regex ruby vim vimdoc" \
+  "+qa"
+```
+
 #### Lazy.nvim
 
 ```nvim
