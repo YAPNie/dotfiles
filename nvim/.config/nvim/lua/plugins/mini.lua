@@ -2,6 +2,13 @@ return {
 	-- Collection of various small independent plugins/modules
 	"echasnovski/mini.nvim",
 	config = function()
+		-- Manage icons and mock older 'nvim-web-devicons' plugin
+		--
+		-- - Automatically enables system-wide devicons for which-key, etc.
+		-- - No additional fonts required unless you choose to use a Nerd Font
+		require("mini.icons").setup()
+		require("mini.icons").mock_nvim_web_devicons()
+
 		-- Better Around/Inside textobjects
 		--
 		-- Examples:

@@ -10,7 +10,11 @@ return {
 		"hrsh7th/cmp-cmdline", -- подсказки для командной строки (:)
 
 		-- Snippet engine (нужен для LSP-подсказок с шаблонами)
-		{ "L3MON4D3/LuaSnip", dependencies = { "saadparwaiz1/cmp_luasnip" } },
+		{
+			"L3MON4D3/LuaSnip",
+			build = "make install_jsregexp",
+			dependencies = { "saadparwaiz1/cmp_luasnip" },
+		},
 	},
 	config = function()
 		local cmp = require("cmp")
