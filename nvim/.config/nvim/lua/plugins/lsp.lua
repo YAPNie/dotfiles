@@ -25,7 +25,6 @@ return {
 				-- Форматирование при сохранении (только для ruff)
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if client and client.name == "ruff" then
-					local augroup = "format-ruff-" .. event.buf
 					-- Используем уникальную группу для каждого буфера
 					local augroup = "format-ruff-" .. event.buf
 					vim.api.nvim_create_autocmd("BufWritePre", {
@@ -39,35 +38,42 @@ return {
 			end,
 		})
 
-		-- Настройка серверов через lspconfig (проверенный способ)
-		local lspconfig = require("lspconfig")
-		-- Python: pyright (типы, автокомплит)
-		lspconfig.pyright.setup({
+		-- НАСТРОЙКА СЕРВЕРОВ ЧЕРЕЗ НОВЫЙ API (vim.lsp.config)
+		-- Это единственный правильный способ для Neovim 0.11+
+		-- Без предупреждений, без deprecated
+		vim.lsp.config.pyright = {
+			root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
 			settings = {
 				pyright = {
-					disableOrganizeImports = true, -- это делает ruff
+					disableOrganizeImports = true,
 				},
 				python = {
 					analysis = {
-						ignore = { "*" }, -- проверку делает ruff
+						ignore = { "*" },
 					},
 				},
 			},
-		})
-		-- Python: ruff (линтинг + форматирование)
-		lspconfig.ruff.setup({})
-		-- Lua
-		lspconfig.lua_ls.setup({
+		}
+		vim.lsp.config.ruff = {
+			root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
+		}
+		vim.lsp.config.lua_ls = {
+			root_markers = { ".luarc.json", ".luacheckrc", ".git" },
 			settings = {
 				Lua = {
 					runtime = { version = "LuaJIT" },
 					diagnostics = { globals = { "vim" } },
 					workspace = {
-						library = vim.api.nvim_get_runtime_file("", true),
+						library = {
+							vim.fn.expand("$VIMRUNTIME/lua"),
+							vim.fn.expand("$VIMRUNTIME/lua/vim"),
+						},
 						checkThirdParty = false,
 					},
 				},
 			},
-		})
+		}
+		-- Включаем серверы
+		vim.lsp.enable({ "pyright", "ruff", "lua_ls" })
 	end,
 }
