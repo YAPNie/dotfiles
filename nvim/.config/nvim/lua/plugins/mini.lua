@@ -6,7 +6,10 @@ return {
 		--
 		-- - Automatically enables system-wide devicons for which-key, etc.
 		-- - No additional fonts required unless you choose to use a Nerd Font
-		require("mini.icons").setup()
+		require("mini.icons").setup({
+			-- 'default' uses glyps, 'ascii' uses text only
+			style = vim.g.have_nerd_font and "default" or "ascii",
+		})
 		require("mini.icons").mock_nvim_web_devicons()
 
 		-- Better Around/Inside textobjects
