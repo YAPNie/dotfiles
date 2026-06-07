@@ -34,12 +34,15 @@ vim.o.breakindent = true
 -- Save undo history
 vim.o.undofile = true
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+-- Case-insensitive searching UNLESS \C or one or more capital letters in the
+-- search term
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Keep signcolumn on by default
-vim.o.signcolumn = "yes"
+-- Always show the signcolumn with a width of 2 signs, so LSP diagnostics and
+-- Git status (mini.diff) stay side-by-side without hiding each other.
+vim.o.signcolumn = "yes:2"
+
 
 -- Decrease update time
 vim.o.updatetime = 250
@@ -55,8 +58,9 @@ vim.o.splitbelow = true
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 --
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
+--  Notice listchars is set using `vim.opt` instead of `vim.o`. It is very
+--  similar to `vim.o` but offers an interface for conveniently interacting with
+--  tables.
 --   See `:help lua-options`
 --   and `:help lua-options-guide`
 vim.o.list = true
@@ -75,9 +79,9 @@ vim.o.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
--- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
--- instead raise a dialog asking if you wish to save the current file(s)
--- See `:help 'confirm'`
+-- if performing an operation that would fail due to unsaved changes in the
+-- buffer (like `:q`), instead raise a dialog asking if you wish to save the
+-- current file(s) See `:help 'confirm'`
 vim.o.confirm = true
 
 -- Tab-completion at the command prompt.
