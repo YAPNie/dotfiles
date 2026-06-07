@@ -3,19 +3,43 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			-- Автоматически подстраивается под твою цветовую схему
+			-- Auto change colorscheme
 			theme = "auto",
-			-- Разделители секций — обычные символы
+			-- Set Section separators to usual symbols
 			section_separators = { left = "", right = "" },
 			component_separators = { left = "|", right = "|" },
-			-- Отключить иконки (Nerd Font не нужен)
+			-- Enable/disable icons based on Nerd Font availability
 			icons_enabled = vim.g.have_nerd_font,
 		},
 		sections = {
 			lualine_a = { "mode" },
 			lualine_b = {
-				"branch",
-				"diff",
+				{
+					-- Branch name source = 'mini.git'
+					"branch",
+					source = function()
+						-- Get current branch name from 'mini.git'
+						return vim.b.minigit_summary and vim.b.minigit_summary.head_name or ""
+					end,
+				},
+				{
+					"diff",
+					source = function()
+						-- Check whether mini.diff is active in the current buffer
+						local summary = vim.b.minidiff_summary
+						if not summary then
+							return nil
+						end
+						-- Return table with number of changes in lualine format
+						return {
+							added = summary.add,
+							modified = summary.change,
+							removed = summary.delete,
+						}
+					end,
+					-- Override default colored blocks with classic text characters
+					symbols = { added = "+", modified = "|", removed = "-" },
+				},
 				{
 					"diagnostics",
 					sources = { "nvim_diagnostic" },
