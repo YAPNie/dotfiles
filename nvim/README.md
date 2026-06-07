@@ -157,7 +157,7 @@ nvim --headless \
     Font) and color mappings used by file explorers, statuslines, and other
     plugins. Requires a patched Nerd Font to display correctly; without one,
     icons will be missing or garbled.
-- echasnovski/mini.nvim — A collection of various small, independent
+- nvim-mini/mini.nvim — A collection of various small, independent
   plugins/modules.
 - NMAC427/guess-indent.nvim — A lightweight plugin that automatically detects
   the indentation style (tabs vs spaces, indent width) in a file and sets the
