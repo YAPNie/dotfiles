@@ -133,7 +133,7 @@ Make to install:
 nvim --headless \
   "+Lazy! sync" \
   "+MasonToolsUpdateSync" \
-  "+TSUpdate!" \
+  "+TSUpdate" \
   "+qa"
 ```
 
