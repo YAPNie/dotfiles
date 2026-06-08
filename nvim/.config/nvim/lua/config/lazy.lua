@@ -30,16 +30,25 @@ require("lazy").setup({
 			import = "plugins",
 		},
 	},
-    -- LuaRocks/HereRocks
+	-- Enable project-local plugin configurations via .lazy.lua file
+	local_spec = true,
+	-- Disable auto checking for configuration files changing
+	change_detection = {
+		enabled = false,
+        -- disable notification that a configuration file was saved
+		notify = false,
+	},
+	-- LuaRocks/HereRocks
 	rocks = {
-        -- Force enabling support LuaRocks
+		-- Force enabling support LuaRocks
 		enabled = true,
-        -- Force using HereRocks (isolated sandbox for LuaRocks plugins)
+		-- Force using HereRocks (isolated sandbox for LuaRocks plugins)
 		hererocks = true,
 	},
 	ui = {
-		-- If you are using a Nerd Font: set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+		-- If you are using a Nerd Font: set icons to an empty table which will
+		-- use the default lazy.nvim defined Nerd Font icons, otherwise define a
+		-- unicode icons table
 		icons = vim.g.have_nerd_font and {} or {
 			cmd = "CMD",
 			config = "CFG",
