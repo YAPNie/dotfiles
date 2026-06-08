@@ -106,6 +106,20 @@ mkdir -p ~/.local/bin
 ln -s $(which fdfind) ~/.local/bin/fd
 ```
 
+### Ruby LSP & Mason Offline Limitations
+
+When configuring `ruby-lsp` or `rubocop` for offline environments, be aware of Ruby's ecosystem constraints regarding patch versions (e.g., running Ruby `v3.2.8` on the online machine and `v3.2.3` on the offline machine):
+
+- **The Problem:** Although Ruby guarantees binary compatibility (ABI) across the same minor version (all `3.2.x` releases), tools like `Bundler` and `ruby-lsp` strictly validate the environment. Moving a pre-compiled Mason folder from a `3.2.8` machine to a `3.2.3` machine will cause `Bundler` to abort the launch with a version mismatch error.
+- **Solution 1 (System Gems - Recommended for Offline):** Avoid installing Ruby tools via Mason. Instead, install them as global system packages on the offline machine:
+
+  ```bash
+  gem install --local ruby-lsp-*.gem rubocop-*.gem
+  ```
+
+  Then, configure your Neovim LSP client to call the global system binary directly using `nvim-lspconfig`.
+- **Solution 2 (The Lockfile Hack):** If you still want to manage it via Mason, you must manually edit the generated lockfile on the offline machine. Navigate to the Mason package directory (e.g., `~/.local/share/nvim/mason/packages/ruby-lsp/...`) and update the `RUBY VERSION` line in `Gemfile.lock` to match your local offline version (e.g., change `ruby 3.2.8` to `ruby 3.2.3`).
+
 ### Commands
 
 #### Make load and compile everything
@@ -118,8 +132,8 @@ Make to install:
 ```bash
 nvim --headless \
   "+Lazy! sync" \
-  "+MasonInstall pyright ruff lua-language-server tree-sitter-cli" \
-  "+TSInstall bash c diff html lua luadoc markdown markdown_inline python query regex ruby vim vimdoc" \
+  "+MasonToolsUpdateSync" \
+  "+TSUpdate!" \
   "+qa"
 ```
 

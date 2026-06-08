@@ -1,10 +1,18 @@
 return {
 	-- Highlight, edit, and navigate code
 	"nvim-treesitter/nvim-treesitter",
+    branch = "master",
 	lazy = false, -- load on startup to mitigate loading
 	build = ":TSUpdate",
 	config = function()
-		require("nvim-treesitter.config").setup({
+		-- Configure compiler flags for safe offline transfer between different CPUs
+		local require_ok, ts_install = pcall(require, "nvim-treesitter.install")
+		if require_ok then
+			ts_install.compilers = { "gcc" }
+			ts_install.c_flags = '-O2 -Wall -fPIC -mtune="generic"'
+			ts_install.cpp_flags = '-O2 -Wall -fPIC -mtune="generic"'
+		end
+		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
 				"bash",
 				"c",
