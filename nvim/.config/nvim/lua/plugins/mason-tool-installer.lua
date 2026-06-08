@@ -9,11 +9,13 @@ return {
 				-- "isort", -- Python import sorter (written on TypeScript)
 				"pyright", -- Python LSP (Microsoft) (written on TypeScript)
 				"lua-language-server", -- Lua LSP
-				-- "solargraph",
-				-- "rubocop",
-                "tree-sitter-cli", -- Compile tree-sitter language support
+				"ruby-lsp", -- Modern LSP from Shopify (replacement for solargraph)
+				"rubocop", -- Ruby Linter and Formatter
+				"tree-sitter-cli", -- Compile tree-sitter language support
 			},
 			auto_update = false,
+			run_on_start = false,
+			table.unpack or unpack,
 		})
 	end,
 }
