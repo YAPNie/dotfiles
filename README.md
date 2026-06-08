@@ -42,3 +42,26 @@ stow nvim
 ### Guides
 
 - [Your unofficial guide to dotfiles on GitHub](https://dotfiles.github.io/tutorials/)
+
+### Alternatives
+
+#### [chezmoi](https://github.com/twpayne/chezmoi)
+
+A modern, powerful alternative to GNU Stow. While Stow works perfectly for simple symlink management, consider migrating to [chezmoi](https://www.chezmoi.io/) if your setup grows.
+
+**When to switch:**
+
+- You need to manage different settings for different machines (e.g., online home PC vs. offline work PC).
+- You need to securely store secrets, passwords, or private API keys.
+- You need cross-platform support (e.g., managing dotfiles on Windows).
+
+**Pros:**
+
+- **Templates:** Use `{{ if ... }}` conditions inside configuration files to change behavior per machine.
+- **Secret Management:** Native integration with password managers (Bitwarden, 1Password, KeePassXC) and encryption tools (`gpg`, `age`).
+- **Cross-platform:** Written in Go, works flawlessly on Linux, macOS, and Windows without relying on symlinks.
+
+**Cons:**
+
+- **Learning Curve:** Requires learning new commands (`chezmoi add/edit/apply`) and Go template syntax.
+- **No Direct Symlinks:** It copies files to its own repository directory, meaning you can't edit system configuration files directly without using `chezmoi edit`.
