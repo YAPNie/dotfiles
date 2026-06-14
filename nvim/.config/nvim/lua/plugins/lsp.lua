@@ -31,6 +31,12 @@ return {
 						buffer = event.buf,
 						group = vim.api.nvim_create_augroup(augroup, { clear = true }),
 						callback = function()
+							-- 1. Сортировка импортов (синхронно)
+							vim.lsp.buf.code_action({
+								context = { only = { "source.organizeImports" } },
+								apply = true,
+							})
+							-- 2. Форматирование кода (синхронно)
 							vim.lsp.buf.format({ name = "ruff", async = false })
 						end,
 					})
