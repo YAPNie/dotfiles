@@ -17,6 +17,8 @@ sudo apt install python3-pip
 sudo apt install nodejs npm
 # For telescope (<leader>sg) - searching in files content.
 sudo apt install ripgrep fd-find
+# For Ruby LSP
+sudo apt install ruby ruby-dev build-essential
 ```
 
 ## Installation
@@ -102,8 +104,7 @@ create a system link (symlink) for it in your local binaries folder. This can be
 done without root rights:
 
 ```bash
-mkdir -p ~/.local/bin
-ln -s $(which fdfind) ~/.local/bin/fd
+mkdir -p ~/.local/bin && ln -s $(which fdfind) ~/.local/bin/fd
 ```
 
 ### Ruby LSP & Mason Offline Limitations
