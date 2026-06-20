@@ -32,15 +32,15 @@ return {
 		-- Integration with Git (commands, statuses, history)
 		require("mini.git").setup()
 
-        -- Show diff (diff hunks) on the sign column.
-		-- If `view` is not defined and line numbers are enabled, 
+		-- Show diff (diff hunks) on the sign column.
+		-- If `view` is not defined and line numbers are enabled,
 		-- the line numbers themselves will be colored.
 		-- If `view.style = "sign"` is used but `signs` are not defined,
 		-- solid colored blocks (squares) will be displayed on the signcolumn.
 		require("mini.diff").setup({
 			view = {
-				-- Display signs in the signcolumn 
-                -- instead of colorizing line numbers
+				-- Display signs in the signcolumn
+				-- instead of colorizing line numbers
 				style = "sign",
 				-- Override default colored blocks with classic text characters
 				signs = { add = "+", change = "|", delete = "-" },
@@ -53,7 +53,7 @@ return {
 		-- local statusline = require("mini.statusline")
 		-- set use_icons to true if you have a Nerd Font
 		-- statusline.setup({
-        -- use_icons = vim.g.have_nerd_font,
+		-- use_icons = vim.g.have_nerd_font,
 		-- })
 
 		-- You can configure sections in the statusline by overriding their
@@ -63,6 +63,23 @@ return {
 		-- statusline.section_location = function()
 		-- 	return "%2l:%-2v"
 		-- end
+
+		-- File explorer with text-editing capabilities
+		--
+		--  - Navigate folders using a cascade of floating windows
+		--  - Create, delete, and rename files/directories as regular text
+		--  - Save the buffer (:w) to apply changes to the file system
+		require("mini.files").setup()
+
+		-- Open in dir of currently opened file
+		vim.keymap.set("n", "<leader>fe", function()
+			require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+		end, { desc = "[f]ile [e]xplore (current file directory)" })
+
+		-- Open in a project folder
+		vim.keymap.set("n", "<leader>fE", function()
+			require("mini.files").open(vim.uv.cwd(), true)
+		end, { desc = "[f]ile [E]xplore (project root)" })
 
 		-- ... and there is more!
 		--  Check out: https://github.com/nvim-mini/mini.nvim
