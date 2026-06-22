@@ -140,8 +140,25 @@ nvim --headless \
 
 #### Lazy.nvim
 
-```nvim
-:Lazy clean
+[Lazy.nvim Usage Commands](https://lazy.folke.io/usage#-commands)
+
+```text
+:Lazy build {plugins} - Rebuild a plugin
+:Lazy check [plugins]- Check for updates and show the log (git fetch)
+:Lazy clean [plugins]- Clean plugins that are no longer needed
+:Lazy clear- Clear finished tasks
+:Lazy debug- Show debug information
+:Lazy health- Run :checkhealth lazy
+:Lazy help - Toggle this help page
+:Lazy home- Go back to plugin list
+:Lazy install [plugins]- Install missing plugins
+:Lazy load {plugins} - Load a plugin that has not been loaded yet. Similar to :packadd. Like :Lazy load foo.nvim. Use :Lazy! load to skip cond checks.
+:Lazy log [plugins]- Show recent updates
+:Lazy profile - Show detailed profiling
+:Lazy reload {plugins} - Reload a plugin (experimental!!)
+:Lazy restore [plugins] - Updates all plugins to the state in the lockfile. For a single plugin: restore it to the state in the lockfile or to a given commit under the cursor
+:Lazy sync [plugins]- Run install, clean and update
+:Lazy update [plugins]- Update plugins. This will also update the lockfile
 ```
 
 #### Mason
