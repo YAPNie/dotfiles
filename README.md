@@ -13,6 +13,10 @@ stow -nv -R nvim
 # Restow (unstow + stow).
 stow -R nvim
 stow --restow nvim
+# Explicitly use -d $(pwd) to pass an absolute path and bypass the Stow/Perl bug
+# ("Absolute/relative mismatch") that triggers when the dotfiles dir is a symlink.
+stow -d $(pwd) -t ~ nvim
+stow --dir $(pwd) --target ~ nvim
 ```
 
 ## Usage
