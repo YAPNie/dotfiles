@@ -1,10 +1,12 @@
 # NeoVim
 
-It was created on Ubuntu 24 LTS.
+[NeoVim](https://github.com/neovim/neovim) - Vim-fork focused on extensibility
+and usability.
 
 ## Pre-requisite
 
-The pre-requisites are depend on NeoVim and the used extensions.
+The pre-requisites are depend on NeoVim and the used extensions. It is used on
+Ubuntu 24 LTS.
 
 ```bash
 # For lazy.nvim
