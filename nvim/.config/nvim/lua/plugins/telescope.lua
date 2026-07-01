@@ -21,9 +21,9 @@ return {
 		{
 			-- "nvim-tree/nvim-web-devicons",
 			-- enabled = vim.g.have_nerd_font,
-            -- Provide icons support for picker items
-            -- it can use ASCII symbols if a terminal does not support for NerdFonts
-			"echasnovski/mini.icons" 
+			-- Provide icons support for picker items
+			-- it can use ASCII symbols if a terminal does not support for NerdFonts
+			"echasnovski/mini.icons",
 		},
 	},
 	config = function()
@@ -129,6 +129,16 @@ return {
 			})
 		end, {
 			desc = "[S]earch [N]eovim files",
+		})
+
+		-- Shortcut for searching all the files (hidden and ignored)
+		vim.keymap.set("n", "<leader>sa", function()
+			builtin.find_files({
+				hidden = true,
+				no_ignore = true,
+			})
+		end, {
+			desc = "[S]earch [A]ll files (hidden & ignored)",
 		})
 	end,
 }
